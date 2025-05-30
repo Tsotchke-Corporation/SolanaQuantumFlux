@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "declaration": true,
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "lib": ["es2020", "dom", "esnext.bigint"],
+    "isolatedModules": true,
+    "noEmitOnError": false
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules", 
+    "dist", 
+    "**/*.test.ts",
+    "../node_modules/@solana/spl-token-metadata",
+    "../node_modules/@solana/spl-token-metadata/**/*",
+    "../node_modules/@solana/codecs-data-structures",
+    "../node_modules/@solana/codecs-data-structures/**/*"
+  ]
+}

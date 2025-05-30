@@ -1,0 +1,28 @@
+{
+  "name": "solana-quantum-flux",
+  "version": "1.0.0",
+  "description": "TSOTCHKE QRNG Documentation and Examples for Solana Blockchain implementation of the Quantum-Inspired Random Number Generation",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tsotchke-Corporation/SolanaQuantumFlux"
+  },
+  "homepage": "https://github.com/Tsotchke-Corporation/SolanaQuantumFlux#readme",
+  "bugs": {
+    "url": "https://github.com/Tsotchke-Corporation/SolanaQuantumFlux/issues"
+  },
+  "scripts": {
+    "build": "npm run build:sdk && npm run build:examples",
+    "build:sdk": "cd sdk && npm run build",
+    "build:examples": "cd examples && tsc",
+    "install:all": "npm install && cd sdk && npm install && cd ../examples && npm install"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "typescript": "^4.9.5"
+  },
+  "workspaces": [
+    "sdk",
+    "examples"
+  ]
+}
