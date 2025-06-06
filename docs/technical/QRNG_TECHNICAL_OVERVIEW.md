@@ -175,13 +175,18 @@ Advanced users can customize entropy parameters through special instructions. Co
 
 ### Transaction Return Data
 
-The QRNG program returns randomness via Solana transaction return data, which can be accessed by:
+The QRNG program returns randomness via Solana transaction return data as **Base64 encoded Hex values**. These values must be decoded to obtain the actual random values. The data can be accessed by:
 
 1. Sending a transaction with the appropriate QRNG instruction
 2. Retrieving the transaction using `getTransaction`
-3. Extracting the return data from the transaction metadata
+3. Extracting the Base64 encoded data from the transaction metadata
+4. Decoding the Base64 data to obtain the raw bytes
+5. Parsing the bytes according to the requested data type:
+   - For U64 integers: Parse as a 64-bit little-endian unsigned integer
+   - For Doubles: Parse as a 64-bit little-endian IEEE 754 double
+   - For Booleans: Interpret non-zero values as true, zero as false
 
-Our SDK handles all these details automatically.
+Our SDK handles all these decoding steps automatically. For developers implementing direct integrations, we provide a `qrng_decoder.ts` utility that handles the Base64 decoding and type conversion.
 
 ### Entropy Verification
 

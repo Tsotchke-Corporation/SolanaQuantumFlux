@@ -10,8 +10,9 @@ TSOTCHKE QRNG is a high-quality random number generation service built on Solana
 
 1. **Purchase TSOTCHKE Tokens**: Our service operates on a simple token model - 1 TSOTCHKE token = 1 random number
 2. **Send Transaction**: Your application makes a request to our on-chain program
-3. **Receive Randomness**: The program returns a high-quality random number directly in the transaction
-4. **Use the Result**: Incorporate the random number into your application logic
+3. **Receive Randomness**: The program returns a high-quality random number directly in the transaction as Base64 encoded Hex data
+4. **Decode the Result**: The SDK automatically decodes the Base64 data into the appropriate format (integer, double, or boolean)
+5. **Use the Result**: Incorporate the random number into your application logic
 
 ## Quick Start
 
@@ -76,6 +77,20 @@ console.log(`Random Double: ${randomDouble}`);
 const randomBoolean = await qrngClient.generateRandomBoolean(wallet);
 console.log(`Random Boolean: ${randomBoolean}`);
 ```
+
+## Output Format
+
+The TSOTCHKE QRNG Solana program returns randomness as **Base64 encoded Hex data** in the transaction return data. Our SDK automatically handles the decoding process for you, converting this encoded data into usable values based on the requested type.
+
+For those implementing direct integrations without our SDK, you'll need to:
+1. Extract the Base64 encoded data from the transaction return data
+2. Decode the Base64 string to get the raw binary data
+3. Parse the binary data according to the requested type:
+   - U64 integers: Read as a 64-bit little-endian unsigned integer
+   - Doubles: Read as a 64-bit little-endian IEEE 754 floating point value
+   - Booleans: Interpret as true if non-zero, false if zero
+
+Our SDK's `client.ts` implementation and the `qrng_decoder.ts` utility handle these conversions automatically, so you don't have to worry about the technical details when using our SDK.
 
 ## Different Output Types
 
@@ -212,6 +227,8 @@ try {
 3. **Handle Failures**: Implement proper error handling and retry mechanisms
 4. **Secure Storage**: Never hardcode wallet keys in your application
 5. **Verify Results**: For critical applications, verify the transaction on-chain
+6. **Use the SDK**: The SDK handles Base64 decoding automatically; use it whenever possible
+7. **Test Decoding**: If implementing custom decoding, test thoroughly with different output types
 
 ## Next Steps
 

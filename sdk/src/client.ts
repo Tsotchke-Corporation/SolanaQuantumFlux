@@ -75,7 +75,7 @@ export class QrngClient {
    * Generate a random 64-bit unsigned integer
    * 
    * @param wallet - Wallet to pay for the random number generation
-   * @returns A promise that resolves to the random u64 value
+   * @returns A promise that resolves to the random u64 value decoded from Base64 encoded Hex data
    */
   async generateRandomU64(wallet: Keypair | Signer): Promise<bigint> {
     const result = await this.generateRandom(
@@ -94,7 +94,7 @@ export class QrngClient {
    * Generate a random double between 0 and 1
    * 
    * @param wallet - Wallet to pay for the random number generation
-   * @returns A promise that resolves to the random double value
+   * @returns A promise that resolves to the random double value decoded from Base64 encoded Hex data
    */
   async generateRandomDouble(wallet: Keypair | Signer): Promise<number> {
     const result = await this.generateRandom(
@@ -113,7 +113,7 @@ export class QrngClient {
    * Generate a random boolean
    * 
    * @param wallet - Wallet to pay for the random number generation
-   * @returns A promise that resolves to the random boolean value
+   * @returns A promise that resolves to the random boolean value decoded from Base64 encoded Hex data
    */
   async generateRandomBoolean(wallet: Keypair | Signer): Promise<boolean> {
     const result = await this.generateRandom(
@@ -161,7 +161,7 @@ export class QrngClient {
    * 
    * @param wallet - Wallet to pay for the random number generation
    * @param instructionType - The type of random number to generate
-   * @returns A promise that resolves to the random value as a buffer
+   * @returns A promise that resolves to the raw buffer containing decoded Base64 data from the Solana program
    */
   private async generateRandom(
     wallet: Keypair | Signer,
@@ -238,7 +238,9 @@ export class QrngClient {
         throw new QrngError('No return data found in transaction');
       }
       
-      // Decode the return data
+      // Decode the Base64 encoded Hex data returned by the program
+      // The program returns randomness as Base64 encoded data that must be decoded
+      // before it can be interpreted as the appropriate data type (U64, Double, or Boolean)
       return Buffer.from(meta.returnData.data, 'base64');
     } catch (error: any) {
       // Handle and wrap errors

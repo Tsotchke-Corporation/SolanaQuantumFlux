@@ -2,6 +2,19 @@
 
 This reference documentation provides detailed information about the TSOTCHKE QRNG SDK for Solana. The SDK offers a simple interface for accessing high-quality quantum-inspired random numbers on the Solana blockchain.
 
+## Output Format
+
+The TSOTCHKE QRNG Solana program returns randomness in a **Base64 encoded Hex format**. This encoding is handled automatically by the SDK, which decodes the Base64 data into the appropriate data types (integer, double, or boolean). For users who need to manually decode the output data:
+
+1. The program returns Base64 encoded data in the transaction return data
+2. This data must be decoded from Base64 to binary
+3. The binary data is then parsed according to the requested data type:
+   - U64 integers: Parsed as a 64-bit little-endian unsigned integer
+   - Doubles: Parsed as a 64-bit little-endian IEEE 754 double
+   - Booleans: Parsed where non-zero is true, zero is false
+
+The SDK handles all this decoding automatically in the background, so users don't need to implement decoding logic when using the SDK methods.
+
 ## Installation
 
 ```bash
